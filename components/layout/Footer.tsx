@@ -28,10 +28,10 @@ export function Footer() {
               href="/"
               className="font-serif text-2xl font-medium tracking-wide text-[var(--foreground)]"
             >
-              Tattoo Kaohsiung
+              Honkaku Tattoo Studio
             </Link>
             <p className="mt-4 max-w-xs text-sm text-[var(--muted)]">
-              Premium tattoo artistry in Kaohsiung. Where tradition meets contemporary design.
+              Authentic traditional Japanese artistry meets contemporary ink. Coming soon.
             </p>
           </div>
 
@@ -72,7 +72,7 @@ export function Footer() {
         </div>
 
         <div className="mt-16 border-t border-[var(--border)] pt-8 text-center text-xs text-[var(--muted-foreground)]">
-          © {new Date().getFullYear()} Tattoo Kaohsiung. All rights reserved.
+          © {new Date().getFullYear()} Honkaku Tattoo Studio. All rights reserved.
         </div>
       </div>
     </motion.footer>

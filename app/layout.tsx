@@ -17,9 +17,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Tattoo Kaohsiung | Premium Tattoo Studio",
+  title: "Honkaku Tattoo Studio | Coming Soon",
   description:
-    "Premium tattoo artistry in Kaohsiung. Traditional, fine-line, and realism by master artists.",
+    "Honkaku Tattoo Studio — Authentic traditional Japanese artistry meets contemporary ink. Coming soon.",
 };
 
 export default function RootLayout({

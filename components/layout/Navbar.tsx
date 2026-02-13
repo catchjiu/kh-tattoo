@@ -28,7 +28,7 @@ export function Navbar() {
           href="/"
           className="font-serif text-xl font-medium tracking-wide text-[var(--foreground)] transition-colors hover:text-[var(--accent-gold)]"
         >
-          Tattoo Kaohsiung
+          Honkaku Tattoo Studio
         </Link>
 
         {/* Desktop nav */}
