@@ -5,7 +5,7 @@ export default async function BlogPage() {
   const supabase = await createClient();
   const { data: posts } = await supabase
     .from("blog_posts")
-    .select("id, slug, title, excerpt, category, published_at")
+    .select("id, slug, title, excerpt, category, cover_image_url, published_at")
     .eq("is_published", true)
     .lte("published_at", new Date().toISOString())
     .order("published_at", { ascending: false });
@@ -29,21 +29,35 @@ export default async function BlogPage() {
               className="border-b border-[var(--border)] pb-8 last:border-0"
             >
               <Link href={`/blog/${post.slug}`} className="group block">
+                {post.cover_image_url && (
+                  <div className="aspect-[3/2] overflow-hidden rounded-sm">
+                    <img
+                      src={post.cover_image_url}
+                      alt=""
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                    />
+                  </div>
+                )}
                 {post.category && (
-                  <span className="text-sm uppercase tracking-wider text-[var(--accent-gold)]">
+                  <span className="mt-4 block text-xs uppercase tracking-wider text-[var(--accent-gold)]">
                     {post.category}
                   </span>
                 )}
-                <h2 className="mt-2 font-serif text-2xl font-medium group-hover:text-[var(--accent-gold)]">
+                <h2 className="mt-2 font-serif text-3xl font-medium group-hover:text-[var(--accent-gold)] sm:text-4xl">
                   {post.title}
                 </h2>
                 {post.excerpt && (
-                  <p className="mt-2 text-[var(--muted)]">{post.excerpt}</p>
+                  <p className="mt-3 text-sm text-[var(--muted)] line-clamp-3">
+                    {post.excerpt}
+                  </p>
                 )}
+                <span className="mt-3 inline-block text-sm font-medium text-[var(--accent-gold)] group-hover:underline">
+                  Read more →
+                </span>
                 {post.published_at && (
                   <time
                     dateTime={post.published_at}
-                    className="mt-2 block text-sm text-[var(--muted-foreground)]"
+                    className="mt-2 block text-xs text-[var(--muted-foreground)]"
                   >
                     {new Date(post.published_at).toLocaleDateString("en-US", {
                       year: "numeric",
