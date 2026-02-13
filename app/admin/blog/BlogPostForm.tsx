@@ -6,6 +6,7 @@ import { X } from "lucide-react";
 import type { BlogPost } from "@/types/database";
 import { createBlogPost, updateBlogPost } from "./actions";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
+import { BlogCoverUpload } from "@/components/admin/BlogCoverUpload";
 
 type Props = {
   post?: BlogPost | null;
@@ -25,11 +26,16 @@ export function BlogPostForm({ post, onClose }: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [content, setContent] = useState(post?.content ?? "");
+  const [coverImageUrl, setCoverImageUrl] = useState(post?.cover_image_url ?? "");
   const isEditing = !!post;
 
   useEffect(() => {
     if (post?.content) setContent(post.content);
   }, [post?.content]);
+
+  useEffect(() => {
+    if (post?.cover_image_url) setCoverImageUrl(post.cover_image_url);
+  }, [post?.cover_image_url]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -125,14 +131,14 @@ export function BlogPostForm({ post, onClose }: Props) {
 
           <div>
             <label className="block text-sm font-medium text-[var(--muted)]">
-              Cover Image URL
+              Cover Image
             </label>
-            <input
-              name="cover_image_url"
-              type="url"
-              defaultValue={post?.cover_image_url ?? ""}
-              placeholder="https://..."
-              className="mt-1 w-full rounded-md border border-[var(--border)] bg-[#121212] px-3 py-2 text-[var(--foreground)]"
+            <p className="mt-1 mb-2 text-xs text-[var(--muted)]">
+              Optional. 3:2 landscape for blog post headers.
+            </p>
+            <BlogCoverUpload
+              value={coverImageUrl || null}
+              onChange={(url) => setCoverImageUrl(url ?? "")}
             />
           </div>
 

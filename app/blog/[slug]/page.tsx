@@ -71,11 +71,11 @@ export default async function BlogPostPage({
         )}
 
         {post.cover_image_url && (
-          <div className="mt-8 overflow-hidden rounded-sm">
+          <div className="mt-8 aspect-[3/2] overflow-hidden rounded-sm">
             <img
               src={post.cover_image_url}
               alt=""
-              className="w-full object-cover"
+              className="h-full w-full object-cover"
             />
           </div>
         )}
