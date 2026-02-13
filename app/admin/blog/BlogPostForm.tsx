@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import type { BlogPost } from "@/types/database";
 import { createBlogPost, updateBlogPost } from "./actions";
+import { RichTextEditor } from "@/components/admin/RichTextEditor";
 
 type Props = {
   post?: BlogPost | null;
@@ -23,7 +24,12 @@ function slugify(text: string) {
 export function BlogPostForm({ post, onClose }: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const [content, setContent] = useState(post?.content ?? "");
   const isEditing = !!post;
+
+  useEffect(() => {
+    if (post?.content) setContent(post.content);
+  }, [post?.content]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -108,15 +114,13 @@ export function BlogPostForm({ post, onClose }: Props) {
 
           <div>
             <label className="block text-sm font-medium text-[var(--muted)]">
-              Content * (Markdown supported)
+              Content *
             </label>
-            <textarea
-              name="content"
-              required
-              rows={12}
-              defaultValue={post?.content ?? ""}
-              className="mt-1 w-full rounded-md border border-[var(--border)] bg-[#121212] px-3 py-2 font-mono text-sm text-[var(--foreground)]"
-            />
+            <p className="mt-1 mb-2 text-xs text-[var(--muted)]">
+              Use the toolbar to format text, add images (upload or paste), and embed YouTube videos.
+            </p>
+            <RichTextEditor content={content} onChange={setContent} />
+            <input type="hidden" name="content" value={content} required />
           </div>
 
           <div>

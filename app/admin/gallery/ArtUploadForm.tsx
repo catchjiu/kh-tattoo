@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import type { ArtUpload } from "@/types/database";
 import type { Artist } from "@/types/database";
 import { createArtUpload, updateArtUpload } from "./actions";
+import { GalleryImageUpload } from "@/components/admin/GalleryImageUpload";
 
 type Props = {
   artUpload?: ArtUpload | null;
@@ -16,13 +17,24 @@ type Props = {
 export function ArtUploadForm({ artUpload, artists, onClose }: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState(artUpload?.image_url ?? "");
   const isEditing = !!artUpload;
+
+  useEffect(() => {
+    setImageUrl(artUpload?.image_url ?? "");
+  }, [artUpload?.image_url]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     const form = e.currentTarget;
     const formData = new FormData(form);
+
+    const url = (formData.get("image_url") as string)?.trim();
+    if (!url) {
+      setError("Please upload an image.");
+      return;
+    }
 
     const result = isEditing
       ? await updateArtUpload(artUpload.id, formData)
@@ -79,16 +91,12 @@ export function ArtUploadForm({ artUpload, artists, onClose }: Props) {
 
           <div>
             <label className="block text-sm font-medium text-[var(--muted)]">
-              Image URL *
+              Image *
             </label>
-            <input
-              name="image_url"
-              type="url"
-              required
-              defaultValue={artUpload?.image_url ?? ""}
-              placeholder="https://..."
-              className="mt-1 w-full rounded-md border border-[var(--border)] bg-[#121212] px-3 py-2 text-[var(--foreground)]"
-            />
+            <p className="mt-1 mb-2 text-xs text-[var(--muted)]">
+              Upload a photo or use an existing artwork image.
+            </p>
+            <GalleryImageUpload value={imageUrl || null} onChange={(url) => setImageUrl(url ?? "")} />
           </div>
 
           <div>

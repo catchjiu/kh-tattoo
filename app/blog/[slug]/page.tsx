@@ -3,6 +3,25 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
+function BlogContent({ content }: { content: string }) {
+  const isHtml = /<[a-z][\s\S]*>/i.test(content);
+  const html = isHtml
+    ? content
+    : content
+        .replace(/\n/g, "<br />")
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*(.*?)\*/g, "<em>$1</em>")
+        .replace(/^### (.*$)/gm, "<h3 class='font-serif text-xl font-medium mt-6 mb-2'>$1</h3>")
+        .replace(/^## (.*$)/gm, "<h2 class='font-serif text-2xl font-medium mt-8 mb-2'>$1</h2>")
+        .replace(/^# (.*$)/gm, "<h1 class='font-serif text-3xl font-medium mt-8 mb-2'>$1</h1>");
+  return (
+    <div
+      className="prose prose-invert mt-8 max-w-none [&_img]:rounded [&_iframe]:aspect-video [&_iframe]:w-full [&_iframe]:max-w-2xl"
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
+}
+
 export default async function BlogPostPage({
   params,
 }: {
@@ -61,20 +80,7 @@ export default async function BlogPostPage({
           </div>
         )}
 
-        <div className="prose prose-invert mt-8 max-w-none">
-          <div
-            className="whitespace-pre-wrap text-[var(--foreground)]"
-            dangerouslySetInnerHTML={{
-              __html: post.content
-                .replace(/\n/g, "<br />")
-                .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-                .replace(/\*(.*?)\*/g, "<em>$1</em>")
-                .replace(/^### (.*$)/gm, "<h3 class='font-serif text-xl font-medium mt-6 mb-2'>$1</h3>")
-                .replace(/^## (.*$)/gm, "<h2 class='font-serif text-2xl font-medium mt-8 mb-2'>$1</h2>")
-                .replace(/^# (.*$)/gm, "<h1 class='font-serif text-3xl font-medium mt-8 mb-2'>$1</h1>"),
-            }}
-          />
-        </div>
+        <BlogContent content={post.content} />
       </article>
     </div>
   );
