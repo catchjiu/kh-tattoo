@@ -13,7 +13,7 @@ export default async function GalleryPage() {
     <div className="mx-auto max-w-7xl px-6 py-24">
       <h1 className="font-serif text-4xl font-medium">Gallery</h1>
       <p className="mt-4 text-[var(--muted)]">
-        Browse our portfolio of tattoo artistry. Hover or click to reveal color.
+        Browse our portfolio of tattoo artistry. Hover or tap to reveal color.
       </p>
 
       <GalleryGrid artworks={artworks ?? []} />

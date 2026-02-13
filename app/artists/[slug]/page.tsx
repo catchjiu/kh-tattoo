@@ -70,7 +70,7 @@ export default async function ArtistGalleryPage({
         Portfolio
       </h2>
       <p className="mt-2 text-[var(--muted)]">
-        {artworks?.length ?? 0} piece{(artworks?.length ?? 0) !== 1 ? "s" : ""} in this collection. Hover or click to reveal color.
+        {artworks?.length ?? 0} piece{(artworks?.length ?? 0) !== 1 ? "s" : ""} in this collection. Hover or tap to reveal color.
       </p>
 
       <GalleryGrid artworks={artworks ?? []} showArtistName={false} />

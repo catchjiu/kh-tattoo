@@ -57,7 +57,7 @@ export function ArtUploadList({ artUploads, artists }: Props) {
               key={item.id}
               className="group overflow-hidden rounded-md border border-[var(--border)] bg-[var(--card)]"
             >
-              <div className="relative aspect-square overflow-hidden bg-[var(--border)]">
+              <div className="relative aspect-[2/3] overflow-hidden bg-[var(--border)]">
                 <img
                   src={item.image_url}
                   alt={item.title || "Artwork"}

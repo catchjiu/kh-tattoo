@@ -5,8 +5,9 @@ import Cropper, { type Area } from "react-easy-crop";
 import { createClient } from "@/lib/supabase/client";
 import { Upload, X } from "lucide-react";
 
-const ASPECT = 1; // Square for gallery grid
-const OUTPUT_SIZE = 800; // 800x800 for crisp display
+const ASPECT = 2 / 3; // 2:3 portrait for gallery
+const OUTPUT_WIDTH = 600;
+const OUTPUT_HEIGHT = 900; // 600x900 for 2:3
 
 function createImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -27,8 +28,8 @@ async function getCroppedImg(
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("No canvas context");
 
-  canvas.width = OUTPUT_SIZE;
-  canvas.height = OUTPUT_SIZE;
+  canvas.width = OUTPUT_WIDTH;
+  canvas.height = OUTPUT_HEIGHT;
 
   ctx.drawImage(
     image,
@@ -38,8 +39,8 @@ async function getCroppedImg(
     pixelCrop.height,
     0,
     0,
-    OUTPUT_SIZE,
-    OUTPUT_SIZE
+    OUTPUT_WIDTH,
+    OUTPUT_HEIGHT
   );
 
   return new Promise((resolve, reject) => {
@@ -133,7 +134,7 @@ export function GalleryImageUpload({ value, onChange }: Props) {
           />
         </div>
         <p className="text-xs text-[var(--muted)]">
-          Crop to square — matches gallery display
+          Crop to 2:3 portrait — matches gallery display
         </p>
         <div className="flex items-center gap-2">
           <input
@@ -195,7 +196,7 @@ export function GalleryImageUpload({ value, onChange }: Props) {
             <img
               src={value}
               alt="Preview"
-              className="h-24 w-24 rounded-md object-cover"
+              className="h-24 w-16 rounded-md object-cover"
             />
             <button
               type="button"
@@ -209,7 +210,7 @@ export function GalleryImageUpload({ value, onChange }: Props) {
         )}
       </div>
       <p className="mt-2 text-xs text-[var(--muted)]">
-        Square crop (1:1) — matches gallery grid
+        2:3 portrait crop — matches gallery display
       </p>
       {error && (
         <p className="mt-2 text-sm text-[var(--accent-crimson)]">{error}</p>
