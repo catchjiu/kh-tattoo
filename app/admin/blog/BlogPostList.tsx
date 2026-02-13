@@ -27,7 +27,7 @@ export function BlogPostList({ posts }: Props) {
 
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-[var(--muted)]">
           {posts.length} post{posts.length !== 1 ? "s" : ""}
         </p>

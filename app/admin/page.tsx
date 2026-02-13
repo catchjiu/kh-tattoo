@@ -32,8 +32,8 @@ export default async function AdminDashboardPage() {
   ];
 
   return (
-    <div className="p-8">
-      <h1 className="font-serif text-3xl font-medium text-[var(--foreground)]">
+    <div className="p-4 sm:p-6 md:p-8">
+      <h1 className="font-serif text-2xl font-medium text-[var(--foreground)] sm:text-3xl">
         Dashboard
       </h1>
       <p className="mt-2 text-[var(--muted)]">

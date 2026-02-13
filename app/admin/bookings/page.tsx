@@ -18,10 +18,10 @@ export default async function AdminBookingsPage() {
   const pendingCount = bookings?.filter((b) => b.status === "pending").length ?? 0;
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 md:p-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-serif text-3xl font-medium text-[var(--foreground)]">
+          <h1 className="font-serif text-2xl font-medium text-[var(--foreground)] sm:text-3xl">
             Bookings
           </h1>
           <p className="mt-2 text-[var(--muted)]">
