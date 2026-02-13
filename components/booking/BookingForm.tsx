@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight, Check, PenLine } from "lucide-react";
 import { submitBooking } from "@/app/contact/actions";
+import { BookingReferenceUpload } from "./BookingReferenceUpload";
 
 const STEPS = [
   { id: 1, title: "Your details", key: "details" },
@@ -24,6 +25,7 @@ export function BookingForm({ artists }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [referenceUrl, setReferenceUrl] = useState<string | null>(null);
 
   const formId = "booking-form";
 
@@ -33,6 +35,7 @@ export function BookingForm({ artists }: Props) {
     setLoading(true);
     const form = e.currentTarget;
     const formData = new FormData(form);
+    if (referenceUrl) formData.set("reference_url", referenceUrl);
     const result = await submitBooking(formData);
     setLoading(false);
     if (result?.error) {
@@ -193,13 +196,8 @@ export function BookingForm({ artists }: Props) {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-[var(--muted)]">Reference image URL</label>
-                <input
-                  name="reference_url"
-                  type="url"
-                  placeholder="https://..."
-                  className="mt-1 w-full rounded-md border border-[var(--border)] bg-[var(--card)] px-4 py-3 text-[var(--foreground)]"
-                />
+                <label className="block text-sm font-medium text-[var(--muted)]">Reference photo</label>
+                <BookingReferenceUpload value={referenceUrl} onChange={setReferenceUrl} />
               </div>
           </motion.div>
         </div>
