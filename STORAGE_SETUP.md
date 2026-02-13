@@ -60,9 +60,13 @@ Run the SQL in `supabase/migrations/005_storage_gallery_art.sql` in the Supabase
 
 # Booking References Setup
 
-For the booking form reference photo upload to work (used by unauthenticated users), create a Supabase Storage bucket:
+For the booking form reference photo upload to work, create a Supabase Storage bucket and add the service role key.
 
-## 1. Create the bucket
+## 1. Add service role key
+
+Add `SUPABASE_SERVICE_ROLE_KEY` to `.env.local`. Find it in Supabase Dashboard → **Settings** → **API** → **Service role** (secret).
+
+## 2. Create the bucket
 
 1. Go to [Supabase Dashboard](https://supabase.com/dashboard) → your project
 2. **Storage** → **New bucket**
@@ -72,6 +76,6 @@ For the booking form reference photo upload to work (used by unauthenticated use
 6. **Allowed MIME types**: `image/jpeg`, `image/png`, `image/webp`, `image/gif`
 7. Click **Create bucket**
 
-## 2. Run the storage policies migration
+## 3. Run the storage policies migration
 
 Run the SQL in `supabase/migrations/006_storage_booking_references.sql` in the Supabase SQL Editor.

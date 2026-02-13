@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { Upload, X } from "lucide-react";
+import { uploadBookingReference } from "@/app/contact/actions";
 
 type Props = {
   value: string | null;
@@ -21,29 +21,16 @@ export function BookingReferenceUpload({ value, onChange }: Props) {
     setError(null);
     setUploading(true);
 
-    try {
-      const supabase = createClient();
-      const ext = file.name.split(".").pop() || "jpg";
-      const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const formData = new FormData();
+    formData.set("file", file);
+    const result = await uploadBookingReference(formData);
 
-      const { error: uploadError } = await supabase.storage
-        .from("booking-references")
-        .upload(path, file, {
-          cacheControl: "3600",
-          upsert: false,
-        });
-
-      if (uploadError) throw new Error(uploadError.message);
-
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("booking-references").getPublicUrl(path);
-      onChange(publicUrl);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Upload failed");
-    } finally {
-      setUploading(false);
+    setUploading(false);
+    if (result.error) {
+      setError(result.error);
+      return;
     }
+    if (result.url) onChange(result.url);
   }
 
   return (

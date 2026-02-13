@@ -1,6 +1,29 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
+
+export async function uploadBookingReference(formData: FormData): Promise<{ url?: string; error?: string }> {
+  const file = formData.get("file") as File | null;
+  if (!file?.type?.startsWith("image/")) return { error: "Invalid file type" };
+
+  try {
+    const supabase = createAdminClient();
+    const ext = file.name.split(".").pop() || "jpg";
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+    const { error } = await supabase.storage
+      .from("booking-references")
+      .upload(path, file, { cacheControl: "3600", upsert: false });
+
+    if (error) return { error: error.message };
+
+    const { data } = supabase.storage.from("booking-references").getPublicUrl(path);
+    return { url: data.publicUrl };
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Upload failed" };
+  }
+}
 
 export async function submitBooking(formData: FormData) {
   const supabase = await createClient();
