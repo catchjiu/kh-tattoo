@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
-import { X, Mail, Phone, Calendar, ExternalLink } from "lucide-react";
+import { useEffect, useState } from "react";
+import { X, Mail, Phone, Calendar } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export type Booking = {
@@ -26,13 +26,18 @@ type BookingModalProps = {
 };
 
 export function BookingModal({ booking, onClose }: BookingModalProps) {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        if (lightboxOpen) setLightboxOpen(false);
+        else onClose();
+      }
     };
     window.addEventListener("keydown", handleEscape);
     return () => window.removeEventListener("keydown", handleEscape);
-  }, [onClose]);
+  }, [onClose, lightboxOpen]);
 
   return (
     <AnimatePresence>
@@ -144,15 +149,44 @@ export function BookingModal({ booking, onClose }: BookingModalProps) {
                 )}
 
                 {booking.reference_url && (
-                  <a
-                    href={booking.reference_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm text-[var(--accent-gold)] hover:underline"
+                  <div>
+                    <p className="mb-2 text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
+                      Reference image
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setLightboxOpen(true)}
+                      className="block rounded-md border border-[var(--border)] overflow-hidden hover:border-[var(--accent-gold)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--accent-gold)]"
+                    >
+                      <img
+                        src={booking.reference_url}
+                        alt="Reference"
+                        className="h-24 w-auto max-w-40 object-cover"
+                      />
+                    </button>
+                  </div>
+                )}
+
+                {lightboxOpen && booking.reference_url && (
+                  <div
+                    className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4"
+                    onClick={() => setLightboxOpen(false)}
+                    role="presentation"
                   >
-                    <ExternalLink size={14} />
-                    View reference image
-                  </a>
+                    <button
+                      onClick={() => setLightboxOpen(false)}
+                      className="absolute right-4 top-4 rounded-full p-2 text-white/80 hover:bg-white/10 hover:text-white"
+                      aria-label="Close"
+                    >
+                      <X size={24} />
+                    </button>
+                    <img
+                      src={booking.reference_url}
+                      alt="Reference"
+                      className="max-h-[90vh] max-w-full object-contain"
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  </div>
                 )}
               </div>
             </div>
