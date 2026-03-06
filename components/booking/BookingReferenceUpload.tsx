@@ -48,7 +48,7 @@ export function BookingReferenceUpload({ value, onChange }: Props) {
           type="button"
           onClick={() => inputRef.current?.click()}
           disabled={uploading}
-          className="flex min-h-[80px] min-w-[120px] flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed border-[var(--border)] bg-[var(--card)] px-4 py-3 text-sm text-[var(--muted)] transition hover:border-[var(--accent-gold)] hover:text-[var(--accent-gold)] disabled:opacity-50"
+          className="flex min-h-[80px] min-w-[120px] flex-col items-center justify-center gap-2 rounded-sm border-2 border-dashed border-border bg-card px-4 py-3 text-sm text-foreground-muted transition hover:border-accent hover:text-accent disabled:opacity-50"
         >
           <Upload size={24} strokeWidth={1.5} />
           {uploading ? "Uploading…" : "Upload photo"}
@@ -63,7 +63,7 @@ export function BookingReferenceUpload({ value, onChange }: Props) {
             <button
               type="button"
               onClick={() => onChange(null)}
-              className="absolute -right-2 -top-2 rounded-full bg-[var(--accent-crimson)] p-1 text-white hover:bg-red-700"
+              className="absolute -right-2 -top-2 rounded-full bg-[var(--accent-crimson)] p-1 text-white hover:opacity-90"
               aria-label="Remove"
             >
               <X size={12} />
@@ -71,7 +71,7 @@ export function BookingReferenceUpload({ value, onChange }: Props) {
           </div>
         )}
       </div>
-      <p className="mt-2 text-xs text-[var(--muted)]">
+      <p className="mt-2 text-xs text-foreground-muted">
         Optional. Any image ratio is fine.
       </p>
       {error && (

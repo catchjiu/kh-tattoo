@@ -21,12 +21,12 @@ export function Navbar() {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)] bg-[#121212]/90 backdrop-blur-md"
+      className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-ink/90 backdrop-blur-md"
     >
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link
           href="/"
-          className="font-serif text-xl font-medium tracking-wide text-[var(--foreground)] transition-colors hover:text-[var(--accent-gold)]"
+          className="font-serif text-xl font-medium tracking-wide text-foreground transition-colors hover:text-accent"
         >
           Honkaku Tattoo Studio
         </Link>
@@ -37,7 +37,7 @@ export function Navbar() {
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="text-sm font-medium text-[var(--muted)] transition-colors hover:text-[var(--accent-gold)]"
+                className="text-sm font-medium text-foreground-muted transition-colors hover:text-accent"
               >
                 {link.label}
               </Link>
@@ -48,7 +48,7 @@ export function Navbar() {
         {/* Mobile menu button */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="flex p-2 text-[var(--foreground)] md:hidden"
+          className="flex p-2 text-foreground md:hidden"
           aria-label="Toggle menu"
         >
           {mobileOpen ? <X size={24} strokeWidth={1.5} /> : <Menu size={24} strokeWidth={1.5} />}
@@ -63,7 +63,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="overflow-hidden border-t border-[var(--border)] bg-[#121212] md:hidden"
+            className="overflow-hidden border-t border-border bg-ink md:hidden"
           >
             <ul className="flex flex-col gap-1 px-6 py-4">
               {navLinks.map((link) => (
@@ -71,7 +71,7 @@ export function Navbar() {
                   <Link
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block py-3 text-sm font-medium text-[var(--muted)] transition-colors hover:text-[var(--accent-gold)]"
+                    className="block py-3 text-sm font-medium text-foreground-muted transition-colors hover:text-accent"
                   >
                     {link.label}
                   </Link>

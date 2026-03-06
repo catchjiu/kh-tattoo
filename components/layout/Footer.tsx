@@ -18,7 +18,7 @@ export function Footer() {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className="border-t border-[var(--border)] bg-[#0d0d0d]"
+      className="border-t border-border bg-ink"
     >
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid gap-12 md:grid-cols-3">
@@ -26,18 +26,18 @@ export function Footer() {
           <div>
             <Link
               href="/"
-              className="font-serif text-2xl font-medium tracking-wide text-[var(--foreground)]"
+              className="font-serif text-2xl font-medium tracking-wide text-foreground"
             >
               Honkaku Tattoo Studio
             </Link>
-            <p className="mt-4 max-w-xs text-sm text-[var(--muted)]">
+            <p className="mt-4 max-w-xs text-sm text-foreground-muted">
               Authentic traditional Japanese artistry meets contemporary ink. Coming soon.
             </p>
           </div>
 
           {/* Links */}
           <div>
-            <h4 className="mb-4 font-serif text-sm font-medium uppercase tracking-widest text-[var(--accent-gold)]">
+            <h4 className="mb-4 tracking-label-wide text-accent">
               Explore
             </h4>
             <ul className="space-y-3">
@@ -45,7 +45,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--accent-gold)]"
+                    className="text-sm text-foreground-muted transition-colors hover:text-accent"
                   >
                     {link.label}
                   </Link>
@@ -56,14 +56,14 @@ export function Footer() {
 
           {/* Social */}
           <div>
-            <h4 className="mb-4 font-serif text-sm font-medium uppercase tracking-widest text-[var(--accent-gold)]">
+            <h4 className="mb-4 tracking-label-wide text-accent">
               Connect
             </h4>
             <a
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-[var(--muted)] transition-colors hover:text-[var(--accent-gold)]"
+              className="inline-flex items-center gap-2 text-sm text-foreground-muted transition-colors hover:text-accent"
             >
               <Instagram size={18} strokeWidth={1.5} />
               @tattookaohsiung
@@ -71,7 +71,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 border-t border-[var(--border)] pt-8 text-center text-xs text-[var(--muted-foreground)]">
+        <div className="mt-16 border-t border-border pt-8 text-center text-xs text-foreground-subtle">
           © {new Date().getFullYear()} Honkaku Tattoo Studio. All rights reserved.
         </div>
       </div>

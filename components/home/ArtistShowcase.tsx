@@ -29,7 +29,7 @@ export function ArtistShowcase({ artists }: Props) {
       ];
 
   return (
-    <section className="border-t border-[var(--border)] py-24">
+    <section className="border-t border-border py-24">
       <div className="mx-auto max-w-7xl px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -38,13 +38,13 @@ export function ArtistShowcase({ artists }: Props) {
           transition={{ duration: 0.6 }}
           className="mb-16 text-center"
         >
-          <p className="mb-2 font-serif text-sm uppercase tracking-[0.3em] text-[var(--accent-gold)]">
+          <p className="mb-2 tracking-label-wide text-accent">
             Our Artists
           </p>
-          <h2 className="font-serif text-4xl font-medium sm:text-5xl">
+          <h2 className="font-serif text-4xl font-medium text-foreground sm:text-5xl">
             Meet the Masters
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-[var(--muted)]">
+          <p className="mx-auto mt-4 max-w-2xl text-foreground-muted">
             Each artist brings a unique vision and decades of experience to every
             piece.
           </p>
@@ -61,7 +61,7 @@ export function ArtistShowcase({ artists }: Props) {
               className="group"
             >
               <Link href={`/artists/${artist.slug}`} className="block">
-                <div className="relative overflow-hidden rounded-sm bg-[var(--card)] transition-colors group-hover:bg-[var(--card-hover)]">
+                <div className="relative overflow-hidden rounded-sm bg-card transition-colors group-hover:bg-card-hover">
                   <div className="aspect-[3/4] overflow-hidden">
                     {artist.avatar_url ? (
                       <img
@@ -84,10 +84,10 @@ export function ArtistShowcase({ artists }: Props) {
                     <h3 className="font-serif text-xl font-medium text-[var(--foreground)]">
                       {artist.name}
                     </h3>
-                    <p className="mt-1 text-sm text-[var(--accent-gold)]">
+                    <p className="mt-1 text-sm text-accent">
                       {artist.specialty || "Tattoo Artist"}
                     </p>
-                    <span className="mt-3 inline-flex items-center gap-2 text-sm text-[var(--muted)] transition-colors group-hover:text-[var(--accent-gold)]">
+                    <span className="mt-3 inline-flex items-center gap-2 text-sm text-foreground-muted transition-colors group-hover:text-accent">
                       View Portfolio
                       <ArrowRight size={16} strokeWidth={1.5} />
                     </span>
@@ -106,7 +106,7 @@ export function ArtistShowcase({ artists }: Props) {
         >
           <Link
             href="/artists"
-            className="inline-flex items-center gap-2 border-b border-[var(--accent-gold)] pb-1 font-medium text-[var(--accent-gold)] transition-colors hover:text-[var(--foreground)]"
+            className="inline-flex items-center gap-2 border-b border-accent pb-1 font-medium text-accent transition-colors hover:text-foreground"
           >
             View All Artists
             <ArrowRight size={18} strokeWidth={1.5} />

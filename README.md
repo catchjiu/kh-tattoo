@@ -31,6 +31,25 @@ Run the migration in `supabase/migrations/001_initial_schema.sql` in your Supaba
 
 See [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md) for the full folder layout.
 
-## Deployment
+## Deployment (Docker)
 
-Target: e2-standard-2 (Debian/Ubuntu) via Docker or PM2.
+Runs on a single Google Cloud Compute Engine VM (e2-standard-2 or similar).
+
+```bash
+# 1. Create env file
+cp .env.docker.example .env
+# Edit .env — set POSTGRES_PASSWORD, Supabase keys, etc.
+
+# 2. Build and run
+docker compose up -d
+
+# App: http://localhost:3000
+# PostgreSQL: internal (app connects via DATABASE_URL)
+```
+
+### First-time setup
+
+- **Prisma**: Migrations run automatically on startup.
+- **Seed data**: If using Prisma, add at least one Artist for bookings:
+  `npx prisma db seed` (or insert via SQL).
+- **Supabase**: If not using local Prisma, configure Supabase in `.env` for artists/gallery.

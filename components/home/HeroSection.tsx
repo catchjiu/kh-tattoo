@@ -3,80 +3,74 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
+import { HeroSlider } from "./HeroSlider";
 
-export function HeroSection() {
+const CYAN = "#00e5ff";
+
+type Props = {
+  /** Gallery image URLs for hero background carousel */
+  imageUrls?: string[];
+};
+
+export function HeroSection({ imageUrls = [] }: Props) {
   return (
-    <section className="relative min-h-[90vh] overflow-hidden">
-      {/* Parallax / high-res background */}
-      <div className="absolute inset-0">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1568515041317-4c1a7c936ee0?w=1920&q=80')`,
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#121212]/60 via-[#121212]/80 to-[#121212]" />
-      </div>
+    <section className="relative min-h-[100dvh] overflow-hidden">
+      {/* Background carousel with fetched gallery images */}
+      <HeroSlider imageUrls={imageUrls} intervalMs={5000} />
 
-      <div className="relative z-10 flex min-h-[90vh] flex-col items-center justify-center px-6 text-center">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mb-4 font-serif text-sm uppercase tracking-[0.3em] text-[var(--accent-gold)]"
-        >
-          Kaohsiung&apos;s Finest
-        </motion.p>
-
+      <div className="relative z-10 flex min-h-[100dvh] flex-col items-center justify-center px-6 text-center">
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="font-serif text-5xl font-medium leading-tight tracking-tight sm:text-6xl md:text-7xl lg:text-8xl"
+          transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="font-serif text-5xl font-bold leading-[1.15] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl"
         >
-          Art on
-          <br />
-          <span className="text-[var(--accent-gold)]">Skin</span>
+          Tattoo{" "}
+          <span style={{ color: CYAN }}>Kaohsiung</span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mx-auto mt-8 max-w-xl text-base text-[var(--muted)] sm:text-lg"
+          transition={{ duration: 0.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="mx-auto mt-8 max-w-2xl text-base text-foreground-muted sm:text-lg md:text-xl"
         >
-          Where tradition meets contemporary design. Premium tattoo artistry by
-          master artists in the heart of Kaohsiung.
+          Precision realism meets contemporary ink. Where every detail matters.
         </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.7 }}
+          transition={{ duration: 0.6, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="mt-12 flex flex-col gap-4 sm:flex-row"
         >
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center rounded-sm border border-[var(--accent-gold)] bg-[var(--accent-gold-muted)] px-8 py-4 font-medium text-[var(--accent-gold)] transition-all hover:bg-[var(--accent-gold)] hover:text-[#121212]"
+            className="inline-flex items-center justify-center rounded-sm border-2 px-8 py-4 font-semibold tracking-wide transition-colors"
+            style={{
+              borderColor: CYAN,
+              backgroundColor: CYAN,
+              color: "#0a0a0a",
+            }}
           >
-            Book a Session
+            BOOK A SESSION
           </Link>
           <Link
             href="/gallery"
-            className="inline-flex items-center justify-center rounded-sm border border-[var(--border)] px-8 py-4 font-medium text-[var(--foreground)] transition-colors hover:border-[var(--accent-gold)] hover:text-[var(--accent-gold)]"
+            className="inline-flex items-center justify-center rounded-sm border border-white/40 px-8 py-4 font-semibold tracking-wide text-white/90 backdrop-blur-sm transition-colors hover:border-white/60 hover:bg-white/5 hover:text-white"
           >
-            View Gallery
+            VIEW GALLERY
           </Link>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
+          transition={{ delay: 1 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
         >
           <ChevronDown
-            className="h-8 w-8 animate-bounce text-[var(--muted)]"
+            className="h-8 w-8 animate-bounce text-white/60"
             strokeWidth={1.5}
           />
         </motion.div>

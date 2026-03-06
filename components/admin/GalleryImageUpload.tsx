@@ -2,8 +2,8 @@
 
 import { useState, useCallback, useRef } from "react";
 import Cropper, { type Area } from "react-easy-crop";
-import { createClient } from "@/lib/supabase/client";
 import { Upload, X } from "lucide-react";
+import { uploadPortfolioImage } from "@/app/admin/gallery/upload-actions";
 
 const ASPECT = 2 / 3; // 2:3 portrait for gallery
 const OUTPUT_WIDTH = 600;
@@ -92,24 +92,15 @@ export function GalleryImageUpload({ value, onChange }: Props) {
     setError(null);
     try {
       const blob = await getCroppedImg(file, croppedArea);
-      const supabase = createClient();
-      const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
+      const formData = new FormData();
+      formData.set("file", new File([blob], "cropped.jpg", { type: "image/jpeg" }));
 
-      const { error: uploadError } = await supabase.storage
-        .from("gallery-art")
-        .upload(path, blob, {
-          contentType: "image/jpeg",
-          cacheControl: "3600",
-          upsert: false,
-        });
-
-      if (uploadError) throw new Error(uploadError.message);
-
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("gallery-art").getPublicUrl(path);
-      onChange(publicUrl);
-      handleCancelCrop();
+      const result = await uploadPortfolioImage(formData);
+      if (result.error) throw new Error(result.error);
+      if (result.url) {
+        onChange(result.url);
+        handleCancelCrop();
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
     } finally {

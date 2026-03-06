@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
+import { Lightbox } from "@/components/ui";
+import { FadeInUp } from "@/components/ui/motion";
 
 function getArtistName(item: { artists?: unknown }): string {
   const a = item.artists;
@@ -8,6 +11,9 @@ function getArtistName(item: { artists?: unknown }): string {
   if (Array.isArray(a)) return (a[0] as { name?: string })?.name ?? "—";
   return (a as { name?: string })?.name ?? "—";
 }
+
+const BLUR_PLACEHOLDER =
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBEQACEQADAD8A0p//2Q==";
 
 type Artwork = {
   id: string;
@@ -23,56 +29,72 @@ type Props = {
 };
 
 export function GalleryGrid({ artworks, showArtistName = true }: Props) {
-  const [coloredId, setColoredId] = useState<string | null>(null);
+  const [lightboxItem, setLightboxItem] = useState<Artwork | null>(null);
 
   return (
-    <div className="mt-16 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {artworks.length === 0 ? (
-        <p className="col-span-full text-center text-[var(--muted)]">
-          No artwork yet. Check back soon.
-        </p>
-      ) : (
-        artworks.map((item) => {
-          const isColored = coloredId === item.id;
-          return (
-            <div
+    <>
+      <div className="mt-16 columns-2 gap-6 sm:columns-3 lg:columns-4">
+        {artworks.length === 0 ? (
+          <p className="col-span-full text-center text-foreground-muted">
+            No artwork yet. Check back soon.
+          </p>
+        ) : (
+          artworks.map((item, i) => (
+            <FadeInUp
               key={item.id}
-              className="group overflow-hidden rounded-sm border border-[var(--border)] bg-[var(--card)]"
+              delay={i * 0.05}
+              amount={0.1}
+              className="mb-6 break-inside-avoid"
             >
-              <button
-                type="button"
-                onClick={() => setColoredId(isColored ? null : item.id)}
-                className="relative block w-full cursor-pointer"
-              >
-                <div className="aspect-[2/3] overflow-hidden">
-                  <img
-                    src={item.image_url}
-                    alt={item.title || "Artwork"}
-                    className={`h-full w-full object-cover transition-all duration-500 group-hover:scale-105 ${
-                      isColored ? "grayscale-0" : "grayscale group-hover:grayscale-0"
-                    }`}
-                  />
-                </div>
-              </button>
-              <div className="p-4">
-                <div className="font-medium">{item.title || "Untitled"}</div>
-                {showArtistName && (
-                  <div className="text-sm text-[var(--muted)]">
-                    {getArtistName(item)}
+              <div>
+                <button
+                  type="button"
+                  onClick={() => setLightboxItem(item)}
+                  className="group relative block w-full cursor-pointer text-left"
+                >
+                  <div className="relative aspect-[2/3] overflow-hidden rounded-sm border border-border bg-card">
+                    <Image
+                      src={item.image_url}
+                      alt={item.title || "Artwork"}
+                      fill
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      placeholder="blur"
+                      blurDataURL={BLUR_PLACEHOLDER}
+                    />
                   </div>
-                )}
-                {item.tags && item.tags.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-1 text-xs text-[var(--accent-gold)]">
-                    {item.tags.map((tag: string) => (
-                      <span key={tag}>#{tag}</span>
-                    ))}
+                  <div className="mt-3 px-1">
+                    <div className="font-medium text-foreground">
+                      {item.title || "Untitled"}
+                    </div>
+                    {showArtistName && (
+                      <div className="text-sm text-foreground-muted">
+                        {getArtistName(item)}
+                      </div>
+                    )}
+                    {item.tags && item.tags.length > 0 && (
+                      <div className="mt-1.5 flex flex-wrap gap-1.5 text-xs text-accent">
+                        {item.tags.map((tag: string) => (
+                          <span key={tag}>#{tag}</span>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                )}
+                </button>
               </div>
-            </div>
-          );
-        })
+            </FadeInUp>
+          ))
+        )}
+      </div>
+
+      {lightboxItem && (
+        <Lightbox
+          src={lightboxItem.image_url}
+          alt={lightboxItem.title || "Artwork"}
+          isOpen={!!lightboxItem}
+          onClose={() => setLightboxItem(null)}
+        />
       )}
-    </div>
+    </>
   );
 }
